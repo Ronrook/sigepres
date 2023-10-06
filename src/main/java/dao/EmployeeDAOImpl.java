@@ -26,12 +26,18 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     public Employee findById(Integer id) {
+
         Session session = HibernateUtil.getSessionFactory().openSession();
 
-        Employee employee = session.find(Employee.class, id);
-        session.close();
-
-        return employee;
+        try {
+            return session.find(Employee.class, id);
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+        return null;
     }
 
     @Override
@@ -45,8 +51,9 @@ public class EmployeeDAOImpl implements EmployeeDAO{
         }catch (PersistenceException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
+        }finally {
+            session.close();
         }
-        session.close();
         return employee;
     }
 
@@ -61,8 +68,9 @@ public class EmployeeDAOImpl implements EmployeeDAO{
         }catch (PersistenceException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
+        }finally {
+            session.close();
         }
-        session.close();
         return employee;
     }
 
@@ -72,11 +80,8 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
         try {
             session.beginTransaction();
-
             Employee employee = this.findById(id);
-
             session.remove(employee);
-
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
@@ -85,7 +90,6 @@ public class EmployeeDAOImpl implements EmployeeDAO{
         }finally{
             session.close();
         }
-
         return true;
     }
 }

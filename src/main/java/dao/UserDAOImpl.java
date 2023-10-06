@@ -80,8 +80,9 @@ public class UserDAOImpl implements UserDAO {
         }catch (PersistenceException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
+        }finally {
+            session.close();
         }
-        session.close();
         return user;
     }
 
@@ -96,8 +97,9 @@ public class UserDAOImpl implements UserDAO {
         }catch (PersistenceException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
+        }finally {
+            session.close();
         }
-        session.close();
         return user;
     }
 
@@ -108,11 +110,8 @@ public class UserDAOImpl implements UserDAO {
 
         try {
             session.beginTransaction();
-
             User user = this.findById(id);
-
             session.remove(user);
-
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
@@ -121,7 +120,6 @@ public class UserDAOImpl implements UserDAO {
         }finally{
             session.close();
         }
-
         return true;
     }
 }

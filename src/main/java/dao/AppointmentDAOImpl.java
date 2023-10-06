@@ -95,16 +95,54 @@ public class AppointmentDAOImpl implements AppointmentDAO{
 
     @Override
     public Appointment create(Appointment appointment) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try {
+            session.beginTransaction();
+            session.persist(appointment);
+            session.getTransaction().commit();
+        }catch (PersistenceException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return appointment;
     }
 
     @Override
     public Appointment update(Appointment appointment) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try {
+            session.beginTransaction();
+            session.merge(appointment);
+            session.getTransaction().commit();
+        }catch (PersistenceException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return appointment;
     }
 
     @Override
     public boolean deleteById(Integer id) {
-        return false;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try {
+            session.beginTransaction();
+            Appointment appointment = this.findById(id);
+            session.remove(appointment);
+            session.getTransaction().commit();
+        }catch (PersistenceException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return false;
+        }finally{
+            session.close();
+        }
+        return true;
     }
 }
