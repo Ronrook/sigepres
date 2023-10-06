@@ -1,6 +1,5 @@
 package entities;
 
-import entities.User;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
