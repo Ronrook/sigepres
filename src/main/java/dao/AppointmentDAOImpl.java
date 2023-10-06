@@ -1,6 +1,7 @@
 package dao;
 
 import entities.Appointment;
+import entities.User;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.Query;
 import org.hibernate.Session;
@@ -14,6 +15,16 @@ public class AppointmentDAOImpl implements AppointmentDAO{
 
     @Override
     public Appointment findById(Integer id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try {
+            return  session.find(Appointment.class, id);
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
         return null;
     }
 
