@@ -14,5 +14,18 @@
         <!-- Select our SQL dialect -->
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 
+        <!-- Otras configuraciones de Hibernate -->
+        <mapping class="entities.Appointment"/>
+        <mapping class="entities.Attachment"/>
+        <mapping class="entities.Customer"/>
+        <mapping class="entities.Employee"/>
+        <mapping class="entities.EntityType"/>
+        <mapping class="entities.MedicalHistory"/>
+        <mapping class="entities.Note"/>
+        <mapping class="entities.PurchaseHistory"/>
+        <mapping class="entities.Role"/>
+        <mapping class="entities.Service"/>
+        <mapping class="entities.User"/>
+
     </session-factory>
 </hibernate-configuration>
