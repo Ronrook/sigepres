@@ -1,6 +1,6 @@
 package dao;
 
-import entities.Employee;
+import entities.Attachment;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.Query;
 import org.hibernate.Session;
@@ -9,33 +9,29 @@ import util.HibernateUtil;
 import java.util.Collections;
 import java.util.List;
 
-public class EmployeeDAOImpl implements EmployeeDAO{
-
+public class AttachmentDAOImpl implements AttachmentDAO{
     @Override
-    public List<Employee> findAll() {
-
+    public List<Attachment> findAll() {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
-        try{
-            // Consulta HQL
-            Query query = session.createQuery("from Employee", Employee.class);
+        try {
+            Query query = session.createQuery("from Attachment", Attachment.class);
             return query.getResultList();
-        } catch (PersistenceException e) {
+        }catch (PersistenceException e){
             e.printStackTrace();
             session.getTransaction().rollback();
-        } finally {
+        }finally{
             session.close();
         }
         return Collections.emptyList();
     }
 
     @Override
-    public Employee findById(Integer id) {
-
+    public Attachment findById(Integer id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
-            return session.find(Employee.class, id);
+            return session.find(Attachment.class, id);
         } catch (PersistenceException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
@@ -46,12 +42,12 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     @Override
-    public Employee create(Employee employee) {
+    public Attachment create(Attachment attachment) {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
             session.beginTransaction();
-            session.persist(employee);
+            session.persist(attachment);
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
@@ -59,16 +55,16 @@ public class EmployeeDAOImpl implements EmployeeDAO{
         }finally {
             session.close();
         }
-        return employee;
+        return attachment;
     }
 
     @Override
-    public Employee update(Employee employee) {
+    public Attachment update(Attachment attachment) {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
             session.beginTransaction();
-            session.merge(employee);
+            session.merge(attachment);
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
@@ -76,7 +72,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
         }finally {
             session.close();
         }
-        return employee;
+        return attachment;
     }
 
     @Override
@@ -85,8 +81,8 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
         try {
             session.beginTransaction();
-            Employee employee = this.findById(id);
-            session.remove(employee);
+            Attachment attachment = this.findById(id);
+            session.remove(attachment);
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();

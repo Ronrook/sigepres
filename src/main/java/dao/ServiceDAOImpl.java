@@ -1,6 +1,6 @@
 package dao;
 
-import entities.Employee;
+import entities.Service;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.Query;
 import org.hibernate.Session;
@@ -9,16 +9,13 @@ import util.HibernateUtil;
 import java.util.Collections;
 import java.util.List;
 
-public class EmployeeDAOImpl implements EmployeeDAO{
-
+public class ServiceDAOImpl implements ServiceDAO {
     @Override
-    public List<Employee> findAll() {
-
+    public List findAll() {
         Session session = HibernateUtil.getSessionFactory().openSession();
-
-        try{
+        try {
             // Consulta HQL
-            Query query = session.createQuery("from Employee", Employee.class);
+            Query query = session.createQuery("from Service", Service.class);
             return query.getResultList();
         } catch (PersistenceException e) {
             e.printStackTrace();
@@ -30,12 +27,10 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     @Override
-    public Employee findById(Integer id) {
-
+    public Service findById(Integer id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-
         try {
-            return session.find(Employee.class, id);
+            return session.find(Service.class, id);
         } catch (PersistenceException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
@@ -46,53 +41,53 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     @Override
-    public Employee create(Employee employee) {
+    public Service create(Service service) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-
         try {
+            // Iniciar una transacción
             session.beginTransaction();
-            session.persist(employee);
+            // Guardar el servicio en la base de datos
+            session.persist(service);
+            // Confirmar la transacción
             session.getTransaction().commit();
-        }catch (PersistenceException e) {
+        } catch (PersistenceException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
-        }finally {
+        } finally {
             session.close();
         }
-        return employee;
+        return service;
     }
 
     @Override
-    public Employee update(Employee employee) {
+    public Service update(Service service) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-
         try {
             session.beginTransaction();
-            session.merge(employee);
+            session.merge(service);
             session.getTransaction().commit();
-        }catch (PersistenceException e) {
+        } catch (PersistenceException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
-        }finally {
+        } finally {
             session.close();
         }
-        return employee;
+        return service;
     }
 
     @Override
     public boolean deleteById(Integer id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-
         try {
             session.beginTransaction();
-            Employee employee = this.findById(id);
-            session.remove(employee);
+            Service service = this.findById(id);
+            session.remove(service);
             session.getTransaction().commit();
-        }catch (PersistenceException e) {
+        } catch (PersistenceException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
             return false;
-        }finally{
+        } finally {
             session.close();
         }
         return true;

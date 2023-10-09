@@ -5,6 +5,11 @@ import entities.Appointment;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Data Access Object
+ *
+ * Métodos CRUD - Create Retrieve Update Delete
+ */
 public interface AppointmentDAO {
 
 
