@@ -1,24 +1,23 @@
-import dao.AppointmentDAO;
 
-import dao.AppointmentDAOImpl;
-import entities.Appointment;
+import dao.MedicalHistoryDAO;
+import dao.MedicalHistoryDAOImpl;
+import entities.MedicalHistory;
 
-
-import java.time.LocalDate;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
+        MedicalHistoryDAO medicalHistoryDAO = new MedicalHistoryDAOImpl();
 
-        //List<Appointment> appointments = appointmentDAO.getAppointmentsByEmployeeAndDates(2, LocalDate.of(2023, 7, 8), LocalDate.of(2023, 10, 8));
+        MedicalHistory mh = medicalHistoryDAO.findByDni("54567890");
 
-        List<Appointment> appointments = appointmentDAO.getAppointmentsByCustomerAndDates(8, LocalDate.of(2023, 7, 8), LocalDate.of(2023, 10, 8));
+        String fullName = mh.getCustomer().getUser().getFirstName() + " " + mh.getCustomer().getUser().getLastName();
+        System.out.println(fullName);
 
-        for (Appointment appointment : appointments) {
-            System.out.println(appointment.getAppointmentDatetime());
+        MedicalHistory mh2 = medicalHistoryDAO.findByDni("7886385799");
+
+        if (mh2 == null){
+            System.out.println("es nulo");
         }
-
     }
 }
