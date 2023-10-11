@@ -4,6 +4,7 @@ package entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "medical_history")
@@ -31,6 +32,9 @@ public class MedicalHistory {
 
     @Column(name = "history_is_active", nullable = false)
     private boolean historyIsActive;
+
+    @OneToMany(mappedBy = "medicalHistory", fetch = FetchType.EAGER)
+    private List<Note> notes;
 
     public MedicalHistory() {
     }
@@ -90,5 +94,13 @@ public class MedicalHistory {
 
     public void setHistoryIsActive(boolean historyIsActive) {
         this.historyIsActive = historyIsActive;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 }

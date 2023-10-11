@@ -1,7 +1,6 @@
 package dao;
 
-import entities.MedicalHistory;
-import jakarta.persistence.NoResultException;
+import entities.Note;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.Query;
 import org.hibernate.Session;
@@ -10,16 +9,16 @@ import util.HibernateUtil;
 import java.util.Collections;
 import java.util.List;
 
-public class MedicalHistoryDAOImpl implements MedicalHistoryDAO{
-
+public class NoteDAOImpl implements NoteDAO{
 
     @Override
-    public List<MedicalHistory> findAll() {
+    public List<Note> findAll() {
+
         Session session = HibernateUtil.getSessionFactory().openSession();
 
-        try {
+        try{
             // Consulta HQL
-            Query query = session.createQuery("from MedicalHistory", MedicalHistory.class);
+            Query query = session.createQuery("from Note", Note.class);
             return query.getResultList();
         } catch (PersistenceException e) {
             e.printStackTrace();
@@ -31,11 +30,12 @@ public class MedicalHistoryDAOImpl implements MedicalHistoryDAO{
     }
 
     @Override
-    public MedicalHistory findById(Integer id) {
+    public Note findById(Integer id) {
+
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
-            return  session.find(MedicalHistory.class, id);
+            return session.find(Note.class, id);
         } catch (PersistenceException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
@@ -46,59 +46,12 @@ public class MedicalHistoryDAOImpl implements MedicalHistoryDAO{
     }
 
     @Override
-    public MedicalHistory findByDni(String dniNumber) {
+    public Note create(Note note) {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
-            // Consulta HQL con Position Parameters
-            String hql = "SELECT mh FROM MedicalHistory mh " +
-                    "JOIN mh.customer c " +
-                    "JOIN c.user u " +
-                    "WHERE u.dniNumber = :dniNumber";
-            Query query = session.createQuery(hql, MedicalHistory.class);
-            query.setParameter("dniNumber", dniNumber);
-            return (MedicalHistory) query.getSingleResult();
-        } catch (NoResultException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        } finally {
-            session.close();
-        }
-        return null;
-    }
-
-
-    @Override
-    public MedicalHistory create(MedicalHistory medicalHistory) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
-        try{
-            // Iniciar una transacción
             session.beginTransaction();
-            // Guardar la entidad en la base de datos
-            session.persist(medicalHistory);
-            // Confirmar la transacción
-            session.getTransaction().commit();
-
-        }catch (PersistenceException e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }finally{
-            session.close();
-        }
-        return medicalHistory;
-    }
-
-    @Override
-    public MedicalHistory update(MedicalHistory medicalHistory) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
-        try {
-            // Iniciar una transacción
-            session.beginTransaction();
-            // Actualizamos la entidad en la base de datos
-            session.merge(medicalHistory);
-            // Confirmar la transacción
+            session.persist(note);
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
@@ -106,7 +59,24 @@ public class MedicalHistoryDAOImpl implements MedicalHistoryDAO{
         }finally {
             session.close();
         }
-        return medicalHistory;
+        return note;
+    }
+
+    @Override
+    public Note update(Note note) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try {
+            session.beginTransaction();
+            session.merge(note);
+            session.getTransaction().commit();
+        }catch (PersistenceException e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return note;
     }
 
     @Override
@@ -115,8 +85,8 @@ public class MedicalHistoryDAOImpl implements MedicalHistoryDAO{
 
         try {
             session.beginTransaction();
-            MedicalHistory medicalHistory = this.findById(id);
-            session.remove(medicalHistory);
+            Note note = this.findById(id);
+            session.remove(note);
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
