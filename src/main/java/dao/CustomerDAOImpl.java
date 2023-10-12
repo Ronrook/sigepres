@@ -50,8 +50,11 @@ public class CustomerDAOImpl implements CustomerDAO{
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
+            // Guardar la entidad en la base de datos
             session.persist(customer);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
@@ -67,8 +70,11 @@ public class CustomerDAOImpl implements CustomerDAO{
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
+            // Actualizamos la entidad en la base de datos
             session.merge(customer);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
@@ -84,9 +90,12 @@ public class CustomerDAOImpl implements CustomerDAO{
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
             Customer customer = this.findById(id);
+            // Remover la entidad en la base de datos
             session.remove(customer);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();

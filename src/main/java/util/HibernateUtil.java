@@ -12,12 +12,13 @@ public class HibernateUtil {
     private static StandardServiceRegistry registry;
     private static SessionFactory sessionFactory;
 
+    // Método Singleton para obtener una sola instancia SessionFactory
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
-                // Create registry
+                // registry para crear y gestionar la configuración de Hibernate en la aplicación
                 registry = new StandardServiceRegistryBuilder().configure().build();
-                // Create MetadataSources
+                // MetadataSources para definir y gestionar metadatos relacionados con mapeo de entidades.
                 MetadataSources sources = new MetadataSources(registry);
                 // Create Metadata
                 Metadata metadata = sources.getMetadataBuilder().build();

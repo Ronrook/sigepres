@@ -109,8 +109,11 @@ public class AppointmentDAOImpl implements AppointmentDAO{
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
+            // Guardar la entidad en la base de datos
             session.persist(appointment);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
@@ -126,8 +129,11 @@ public class AppointmentDAOImpl implements AppointmentDAO{
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
+            // Actualizamos la entidad en la base de datos
             session.merge(appointment);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
@@ -143,9 +149,12 @@ public class AppointmentDAOImpl implements AppointmentDAO{
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
             Appointment appointment = this.findById(id);
+            // Remover la entidad en la base de datos
             session.remove(appointment);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();

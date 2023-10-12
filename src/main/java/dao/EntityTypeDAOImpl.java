@@ -29,8 +29,11 @@ public class EntityTypeDAOImpl implements EntityTypeDAO{
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
+            // Guardar la entidad en la base de datos
             session.persist(entityType);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
@@ -46,8 +49,11 @@ public class EntityTypeDAOImpl implements EntityTypeDAO{
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
+            // Actualizamos la entidad en la base de datos
             session.merge(entityType);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
@@ -63,9 +69,12 @@ public class EntityTypeDAOImpl implements EntityTypeDAO{
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
             EntityType entityType = this.findById(id);
+            // Remover la entidad en la base de datos
             session.remove(entityType);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();

@@ -52,7 +52,7 @@ public interface AppointmentDAO {
     Appointment create(Appointment appointment);
 
     /**
-     * Actualiza un registro existente en la tabla employees
+     * Actualiza un registro existente en la tabla appointments
      * @param appointment
      * @return
      */

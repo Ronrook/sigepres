@@ -20,11 +20,13 @@ public class UserDAOImpl implements UserDAO {
         try {
             // Consulta HQL
             Query query = session.createQuery("from User", User.class);
+            // Obtener y retornar resultado de consulta
             return query.getResultList();
         } catch (PersistenceException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
         }finally {
+            // Cerrar session
             session.close();
         }
         return Collections.emptyList();
@@ -36,11 +38,13 @@ public class UserDAOImpl implements UserDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Obtener y retornar resultado de consulta
             return  session.find(User.class, id);
         } catch (PersistenceException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
+            // Cerrar Session
             session.close();
         }
         return null;
@@ -55,11 +59,13 @@ public class UserDAOImpl implements UserDAO {
             Query query = session.createQuery("from User where dniNumber = ?1", User.class);
             query.setParameter(1, dniNumber);
 
+            // Obtener y retornar resultado de consulta
             return (User) query.getSingleResult();
         } catch (NoResultException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
+            // Cerrar Session
             session.close();
         }
         return null;
@@ -81,6 +87,7 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
             session.getTransaction().rollback();
         }finally {
+            // Cerrar Session
             session.close();
         }
         return user;
@@ -91,8 +98,11 @@ public class UserDAOImpl implements UserDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
+            // Actualizamos la entidad en la base de datos
             session.merge(user);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
@@ -109,9 +119,12 @@ public class UserDAOImpl implements UserDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
+            // Remover la entidad en la base de datos
             User user = this.findById(id);
             session.remove(user);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();

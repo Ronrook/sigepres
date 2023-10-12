@@ -1,6 +1,6 @@
 package dao;
 
-import entities.Attachment;
+import entities.Role;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.Query;
 import org.hibernate.Session;
@@ -9,29 +9,33 @@ import util.HibernateUtil;
 import java.util.Collections;
 import java.util.List;
 
-public class AttachmentDAOImpl implements AttachmentDAO{
+public class RoleDAOImpl implements RoleDAO {
+
     @Override
-    public List<Attachment> findAll() {
+    public List<Role> findAll() {
+
         Session session = HibernateUtil.getSessionFactory().openSession();
 
-        try {
-            Query query = session.createQuery("from Attachment", Attachment.class);
+        try{
+            // Consulta HQL
+            Query query = session.createQuery("from Role", Role.class);
             return query.getResultList();
-        }catch (PersistenceException e){
+        } catch (PersistenceException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
-        }finally{
+        } finally {
             session.close();
         }
         return Collections.emptyList();
     }
 
     @Override
-    public Attachment findById(Integer id) {
+    public Role findById(Integer id) {
+
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
-            return session.find(Attachment.class, id);
+            return session.find(Role.class, id);
         } catch (PersistenceException e) {
             e.printStackTrace();
             session.getTransaction().rollback();
@@ -42,14 +46,14 @@ public class AttachmentDAOImpl implements AttachmentDAO{
     }
 
     @Override
-    public Attachment create(Attachment attachment) {
+    public Role create(Role role) {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
             // Iniciar una transacción
             session.beginTransaction();
             // Guardar la entidad en la base de datos
-            session.persist(attachment);
+            session.persist(role);
             // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
@@ -58,18 +62,18 @@ public class AttachmentDAOImpl implements AttachmentDAO{
         }finally {
             session.close();
         }
-        return attachment;
+        return role;
     }
 
     @Override
-    public Attachment update(Attachment attachment) {
+    public Role update(Role role) {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
             // Iniciar una transacción
             session.beginTransaction();
             // Actualizamos la entidad en la base de datos
-            session.merge(attachment);
+            session.merge(role);
             // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
@@ -78,7 +82,7 @@ public class AttachmentDAOImpl implements AttachmentDAO{
         }finally {
             session.close();
         }
-        return attachment;
+        return role;
     }
 
     @Override
@@ -88,9 +92,9 @@ public class AttachmentDAOImpl implements AttachmentDAO{
         try {
             // Iniciar una transacción
             session.beginTransaction();
-            Attachment attachment = this.findById(id);
+            Role role = this.findById(id);
             // Remover la entidad en la base de datos
-            session.remove(attachment);
+            session.remove(role);
             // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {

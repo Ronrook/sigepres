@@ -19,6 +19,9 @@ public class Customer implements Serializable {
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<PurchaseHistory> purchaseHistories; // Relación uno a muchos con PurchaseHistory
 
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    private List<Appointment> appointments; // Relación uno a muchos con Appointment
+
     // Constructor vacío
     public Customer() {
     }
@@ -47,5 +50,13 @@ public class Customer implements Serializable {
 
     public void setPurchaseHistories(List<PurchaseHistory> purchaseHistories) {
         this.purchaseHistories = purchaseHistories;
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
     }
 }

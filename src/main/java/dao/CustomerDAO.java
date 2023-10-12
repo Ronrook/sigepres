@@ -11,16 +11,16 @@ import java.util.List;
  */
 public interface CustomerDAO {
     /**
-     * Recuperar todos los empleados de base de datos de la tabla customers
+     * Recuperar todos los customer de base de datos de la tabla customers
      * Utiliza HQL
-     * @return lista de empleados
+     * @return lista de customer
      */
     List<Customer> findAll();
 
     /**
-     * Busca un empleado por su id
+     * Busca un customer por su id
      * Utiliza métodos de Hibernate
-     * @return empleado
+     * @return customer
      */
     Customer findById(Integer id);
 
@@ -40,7 +40,7 @@ public interface CustomerDAO {
     Customer update(Customer customer);
 
     /**
-     * Borra un empleado de la tabla customers
+     * Borra un customer de la tabla customers
      * @param id
      * @return
      */

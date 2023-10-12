@@ -50,8 +50,11 @@ public class NoteDAOImpl implements NoteDAO{
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
+            // Guardar la entidad en la base de datos
             session.persist(note);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
@@ -67,8 +70,11 @@ public class NoteDAOImpl implements NoteDAO{
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
+            // Actualizamos la entidad en la base de datos
             session.merge(note);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
@@ -84,9 +90,12 @@ public class NoteDAOImpl implements NoteDAO{
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
             Note note = this.findById(id);
+            // Remover la entidad en la base de datos
             session.remove(note);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();

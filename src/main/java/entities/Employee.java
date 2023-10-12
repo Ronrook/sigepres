@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Employee implements Serializable {
     @Id
     @Column(name = "user_id")
-    private Integer userId;
+    private Integer employeeId;
 
     @Column(name = "password", nullable = false, length = 45)
     private String password;
@@ -25,13 +25,16 @@ public class Employee implements Serializable {
     public Employee() {
     }
 
+
+
     // Getters and setters
-    public Integer getUserId() {
-        return userId;
+
+    public Integer getEmployeeId() {
+        return employeeId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getPassword() {

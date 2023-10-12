@@ -56,6 +56,7 @@ public class MedicalHistoryDAOImpl implements MedicalHistoryDAO{
                     "JOIN c.user u " +
                     "WHERE u.dniNumber = :dniNumber";
             Query query = session.createQuery(hql, MedicalHistory.class);
+            // Establecer el parametro de la query
             query.setParameter("dniNumber", dniNumber);
             return (MedicalHistory) query.getSingleResult();
         } catch (NoResultException e) {
@@ -114,9 +115,12 @@ public class MedicalHistoryDAOImpl implements MedicalHistoryDAO{
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
+            // Iniciar una transacción
             session.beginTransaction();
             MedicalHistory medicalHistory = this.findById(id);
+            // Remover la entidad en la base de datos
             session.remove(medicalHistory);
+            // Confirmar la transacción
             session.getTransaction().commit();
         }catch (PersistenceException e) {
             e.printStackTrace();
